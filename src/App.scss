@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+@media print {
+  @page {
+    width: 21cm;
+    height: 29.7cm;
+  }
+  .MuiInputBase-input {
+    border: 2px solid black;
+    padding: 5px 8px;
+  }
+  .MuiBox-root {
+    margin-top: 0px;
+  }
+}
