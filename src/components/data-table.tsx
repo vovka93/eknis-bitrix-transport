@@ -476,15 +476,11 @@ export default function DataTable(props: {
           const aF = FieldKeys[a.field];
           const bF = FieldKeys[b.field];
           if (aF && bF) {
-            console.log(aF + " " + bF);
             if (sorting.indexOf(aF) < sorting.indexOf(bF)) {
-              console.log("-1");
               return -1;
             }
-            console.log("1");
             return 1;
           }
-          console.log("0");
           return 0;
         });
         setColumns([...columns, ...allColumns]);

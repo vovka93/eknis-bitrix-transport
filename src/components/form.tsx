@@ -294,19 +294,19 @@ export default function Form(props: FormProps) {
               return;
             }
           }
-          props
-            .onUpdate({
-              ...newOrder,
-              stageId: nextStageId,
-              fileName: undefined,
-            })
-            .then((order: Order | undefined) => {
-              if (order) {
-                setNewOrder(order);
-                setState({ isSaving: false });
-              }
-            });
         }
+        props
+          .onUpdate({
+            ...newOrder,
+            stageId: nextStageId,
+            fileName: undefined,
+          })
+          .then((order: Order | undefined) => {
+            if (order) {
+              setNewOrder(order);
+              setState({ isSaving: false });
+            }
+          });
       }
     }
   }, [state.isSaving]);
@@ -924,7 +924,7 @@ export default function Form(props: FormProps) {
               </Grid>
             </Grid>
           </Box>
-          {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
+          <pre>{JSON.stringify(newOrder, null, 2)}</pre>
           <ConfirmDialog
             isOpen={confirmDialog.isOpen}
             title={confirmDialog.title}
