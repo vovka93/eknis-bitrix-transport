@@ -136,7 +136,7 @@ export default function App() {
                   fields
                 );
                 // setShowStartScreen(true);
-                bitrix.counterSet(uid);
+                bitrix.counterSet(uid + 1);
                 handleSuccess("Заяка створена");
                 resolve({ ...newOrder, ...convertedOrder });
               } else {
