@@ -924,7 +924,7 @@ export default function Form(props: FormProps) {
               </Grid>
             </Grid>
           </Box>
-          <pre>{JSON.stringify(newOrder, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(newOrder, null, 2)}</pre> */}
           <ConfirmDialog
             isOpen={confirmDialog.isOpen}
             title={confirmDialog.title}
