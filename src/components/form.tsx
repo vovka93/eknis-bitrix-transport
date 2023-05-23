@@ -616,7 +616,10 @@ export default function Form(props: FormProps) {
                             </>
                           )}
                           <Grid item xs={6} lg={12}>
-                            <UniversalField {...field("ttn")} />
+                            <UniversalField
+                              {...field("ttn")}
+                              multiline={true}
+                            />
                           </Grid>
                         </>
                       ) : (
