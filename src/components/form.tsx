@@ -47,6 +47,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import UniversalField from "./universal-field";
 import ConfirmDialog from "./confirm-dialog";
 import { userRoles, userRights } from "../consts";
+import PrintForm from "./printform";
 
 export default function Form(props: FormProps) {
   const [newOrder, setNewOrder] = useState<Order>(
@@ -388,269 +389,192 @@ export default function Form(props: FormProps) {
         <FormScreen onFormOpen={handleFormOpen} />
       ) : newOrder.orderType ? (
         <Container maxWidth="xl">
-          <Box mt={4}>
-            <Box my={2}>
-              <Typography variant="h5">
-                {typeTranslation[newOrder.orderType as AllowedType]}{" "}
-                <UniversalField {...field("isUrgent")} />
-              </Typography>
-            </Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={9}>
-                <Grid container spacing={2}>
-                  <Grid item xs={3} md={4}>
-                    <UniversalField
-                      label="Номер заявки"
-                      viewMode={true}
-                      {...field("uid")}
-                    />
-                  </Grid>
-                  <Grid item xs={3} md={4}>
-                    <UniversalField
-                      name="createdAt"
-                      label="Дата створення"
-                      value={
-                        newOrder?.createdAt
-                          ? formatDateString(String(newOrder?.createdAt))
-                          : "—"
-                      }
-                      viewMode={true}
-                      disabled={!isEditable("createdAt")}
-                      {...defaultOptions}
-                    />
-                  </Grid>
-                  <Grid item xs={3} md={4}>
-                    <OrderDate
-                      value={newOrder?.completeTo}
-                      label="Виконати до"
-                      disabled={!isEditable("completeTo")}
-                      disablePast={isEditable("completeTo")}
-                      onChange={(dateTime) => {
-                        if (!viewMode) {
-                          setNewOrder({
-                            ...newOrder,
-                            completeTo: dateTime,
-                          });
+          {!viewMode && (
+            <Box mt={4}>
+              <Box my={2}>
+                <Typography variant="h5">
+                  {typeTranslation[newOrder.orderType as AllowedType]}{" "}
+                  <UniversalField {...field("isUrgent")} />
+                </Typography>
+              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={9}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={3} md={4}>
+                      <UniversalField
+                        label="Номер заявки"
+                        viewMode={true}
+                        {...field("uid")}
+                      />
+                    </Grid>
+                    <Grid item xs={3} md={4}>
+                      <UniversalField
+                        name="createdAt"
+                        label="Дата створення"
+                        value={
+                          newOrder?.createdAt
+                            ? formatDateString(String(newOrder?.createdAt))
+                            : "—"
                         }
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} md={6} lg={4}>
-                    <UniversalField
-                      type="user"
-                      name="author"
-                      value={newOrder.author}
-                      options={users}
-                      disabled={!isEditable("author")}
-                      {...defaultOptions}
-                    />
-                  </Grid>
-                  <Grid item xs={6} md={6} lg={4}>
-                    <OrderInput
-                      label="Відділ"
-                      name="departament"
-                      value={departament?.NAME || "—"}
-                      disabled={true}
-                      viewMode={true}
-                    />
-                  </Grid>
-                  <Grid item xs={6} md={6} lg={4}>
-                    <UniversalField
-                      name="contactPhone"
-                      value={newOrder.contactPhone ?? "—"}
-                      viewMode={true}
-                      disabled={!isEditable("contactPhone")}
-                      {...defaultOptions}
-                    />
-                  </Grid>
-                  {state.isPost ? (
-                    <>
-                      {state.isUkr ? (
-                        <>
-                          {state.isRecive ? (
-                            <></>
-                          ) : (
-                            <>
-                              <Grid item xs={12} lg={4}>
-                                <UniversalField {...field("listType")} />
-                              </Grid>
-                              <Grid item xs={12} lg={4}>
-                                <UniversalField {...field("index")} />
-                              </Grid>
-                              <Grid item xs={12} lg={4}>
-                                <UniversalField {...field("region")} />
-                              </Grid>
-                              <Grid item xs={12} lg={4}>
-                                <UniversalField {...field("house")} />
-                              </Grid>
-                              <Grid item xs={12} lg={4}>
-                                <UniversalField {...field("city")} />
-                              </Grid>
-                              <Grid item xs={12} lg={4}>
-                                <UniversalField {...field("area")} />
-                              </Grid>
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {/* NP */}
+                        viewMode={true}
+                        disabled={!isEditable("createdAt")}
+                        {...defaultOptions}
+                      />
+                    </Grid>
+                    <Grid item xs={3} md={4}>
+                      <OrderDate
+                        value={newOrder?.completeTo}
+                        label="Виконати до"
+                        disabled={!isEditable("completeTo")}
+                        disablePast={isEditable("completeTo")}
+                        onChange={(dateTime) => {
+                          if (!viewMode) {
+                            setNewOrder({
+                              ...newOrder,
+                              completeTo: dateTime,
+                            });
+                          }
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={6} md={6} lg={4}>
+                      <UniversalField
+                        type="user"
+                        name="author"
+                        value={newOrder.author}
+                        options={users}
+                        disabled={!isEditable("author")}
+                        {...defaultOptions}
+                      />
+                    </Grid>
+                    <Grid item xs={6} md={6} lg={4}>
+                      <OrderInput
+                        label="Відділ"
+                        name="departament"
+                        value={departament?.NAME || "—"}
+                        disabled={true}
+                        viewMode={true}
+                      />
+                    </Grid>
+                    <Grid item xs={6} md={6} lg={4}>
+                      <UniversalField
+                        name="contactPhone"
+                        value={newOrder.contactPhone ?? "—"}
+                        viewMode={true}
+                        disabled={!isEditable("contactPhone")}
+                        {...defaultOptions}
+                      />
+                    </Grid>
+                    {state.isPost ? (
+                      <>
+                        {state.isUkr ? (
+                          <>
+                            {state.isRecive ? (
+                              <></>
+                            ) : (
+                              <>
+                                <Grid item xs={12} lg={4}>
+                                  <UniversalField {...field("listType")} />
+                                </Grid>
+                                <Grid item xs={12} lg={4}>
+                                  <UniversalField {...field("index")} />
+                                </Grid>
+                                <Grid item xs={12} lg={4}>
+                                  <UniversalField {...field("region")} />
+                                </Grid>
+                                <Grid item xs={12} lg={4}>
+                                  <UniversalField {...field("house")} />
+                                </Grid>
+                                <Grid item xs={12} lg={4}>
+                                  <UniversalField {...field("city")} />
+                                </Grid>
+                                <Grid item xs={12} lg={4}>
+                                  <UniversalField {...field("area")} />
+                                </Grid>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {/* NP */}
 
-                          {state.isRecive ? (
-                            <></>
-                          ) : (
-                            <>
-                              <Grid item xs={6} lg={4}>
-                                <UniversalField {...field("type")} />
-                              </Grid>
-                              <Grid item xs={6} lg={4}>
-                                <UniversalField {...field("cargoDesc")} />
-                              </Grid>
-                              <Grid item xs={6} lg={4}>
-                                <UniversalField {...field("size")} />
-                              </Grid>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {state.isCargo ? (
-                        <>
-                          <Grid item xs={12}>
-                            <UniversalField {...field("from")} />
-                          </Grid>
-                          <Grid item xs={6} lg={4}>
-                            <UniversalField {...field("size")} />
-                          </Grid>
-                        </>
-                      ) : (
-                        <>
-                          {/* Peoples */}
-                          <Grid item xs={12}>
-                            <UniversalField {...field("peoplesPlacement")} />
-                          </Grid>
-                          <Grid item xs={6} lg={4}>
-                            <UniversalField {...field("peoples")} />
-                          </Grid>
-                          <Grid item xs={6} lg={4}>
-                            <UniversalField {...field("bags")} />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <UniversalField {...field("purpose")} />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <UniversalField {...field("isBack")} />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <UniversalField {...field("alwaysDriver")} />
-                          </Grid>
-                          {newOrder.alwaysDriver == true && (
-                            <Grid item xs={4}>
-                              <UniversalField {...field("driverDelay")} />
+                            {state.isRecive ? (
+                              <></>
+                            ) : (
+                              <>
+                                <Grid item xs={6} lg={4}>
+                                  <UniversalField {...field("type")} />
+                                </Grid>
+                                <Grid item xs={6} lg={4}>
+                                  <UniversalField {...field("cargoDesc")} />
+                                </Grid>
+                                <Grid item xs={6} lg={4}>
+                                  <UniversalField {...field("size")} />
+                                </Grid>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {state.isCargo ? (
+                          <>
+                            <Grid item xs={12}>
+                              <UniversalField {...field("from")} />
                             </Grid>
-                          )}
-                        </>
-                      )}
-                      <Grid item xs={12}>
-                        <UniversalField {...field("to")} />
-                      </Grid>
-                    </>
-                  )}
-                  <Grid item xs={12}>
-                    <UniversalField {...field("comment")} multiline={true} />
+                            <Grid item xs={6} lg={4}>
+                              <UniversalField {...field("size")} />
+                            </Grid>
+                          </>
+                        ) : (
+                          <>
+                            {/* Peoples */}
+                            <Grid item xs={12}>
+                              <UniversalField {...field("peoplesPlacement")} />
+                            </Grid>
+                            <Grid item xs={6} lg={4}>
+                              <UniversalField {...field("peoples")} />
+                            </Grid>
+                            <Grid item xs={6} lg={4}>
+                              <UniversalField {...field("bags")} />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <UniversalField {...field("purpose")} />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <UniversalField {...field("isBack")} />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <UniversalField {...field("alwaysDriver")} />
+                            </Grid>
+                            {newOrder.alwaysDriver == true && (
+                              <Grid item xs={4}>
+                                <UniversalField {...field("driverDelay")} />
+                              </Grid>
+                            )}
+                          </>
+                        )}
+                        <Grid item xs={12}>
+                          <UniversalField {...field("to")} />
+                        </Grid>
+                      </>
+                    )}
+                    <Grid item xs={12}>
+                      <UniversalField {...field("comment")} multiline={true} />
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Grid container spacing={2}>
-                  {state.isPost ? (
-                    <>
-                      {state.isRecive ? (
-                        <>
-                          <Grid item xs={12}>
-                            <UniversalField
-                              label="Компанія відправник"
-                              value={newOrder.company1}
-                              name="company1"
-                              type="company"
-                              options={companies}
-                              onCreate={handleNewCompany}
-                              disabled={!isEditable("company1")}
-                              {...defaultOptions}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <UniversalField
-                              label="Компанія одержувач"
-                              value={newOrder.company2}
-                              name="company2"
-                              type="company"
-                              options={companies}
-                              disabled={!isEditable("company2")}
-                              {...defaultOptions}
-                            />
-                          </Grid>
-                          {/* <Grid item xs={6} md={12}>
-                            <UniversalField
-                              type="phone"
-                              {...field("receiverPhone")}
-                              value={newOrder.receiverPhone || "+380"}
-                            />
-                          </Grid> */}
-                          {state.isUkr ? (
-                            <>
-                              <Grid item xs={6} lg={12}>
-                                <UniversalField {...field("warehouseUkr")} />
-                              </Grid>
-                            </>
-                          ) : (
-                            <>
-                              <Grid item xs={6} lg={12}>
-                                <UniversalField {...field("warehouse")} />
-                              </Grid>
-                              <Grid item xs={6} md={12}>
-                                <UniversalField {...field("payment")} />
-                              </Grid>
-                            </>
-                          )}
-                          <Grid item xs={6} lg={12}>
-                            <UniversalField
-                              {...field("ttn")}
-                              multiline={true}
-                            />
-                          </Grid>
-                        </>
-                      ) : (
-                        <>
-                          <Grid item xs={12}>
-                            <UniversalField
-                              label="Компанія відправник"
-                              name="company2"
-                              disabled={!isEditable("company2")}
-                              {...defaultOptions}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <UniversalField
-                              type="phone"
-                              {...field("senderPhone")}
-                              value={newOrder.senderPhone || "+380"}
-                            />
-                          </Grid>
-                          <Grid item xs={6} md={12}>
-                            <UniversalField {...field("receiverType")} />
-                          </Grid>
-                          {newOrder.receiverType == "832" && (
-                            <Grid item xs={6} md={12}>
-                              <UniversalField {...field("receiverName")} />
-                            </Grid>
-                          )}
-                          {newOrder.receiverType == "834" && (
-                            <Grid item xs={6} md={12}>
+                <Grid item xs={12} md={3}>
+                  <Grid container spacing={2}>
+                    {state.isPost ? (
+                      <>
+                        {state.isRecive ? (
+                          <>
+                            <Grid item xs={12}>
                               <UniversalField
-                                label="Компанія одержувач"
+                                label="Компанія відправник"
+                                value={newOrder.company1}
                                 name="company1"
                                 type="company"
                                 options={companies}
@@ -659,40 +583,118 @@ export default function Form(props: FormProps) {
                                 {...defaultOptions}
                               />
                             </Grid>
-                          )}
-                          <Grid item xs={6} md={12}>
+                            <Grid item xs={12}>
+                              <UniversalField
+                                label="Компанія одержувач"
+                                value={newOrder.company2}
+                                name="company2"
+                                type="company"
+                                options={companies}
+                                disabled={!isEditable("company2")}
+                                {...defaultOptions}
+                              />
+                            </Grid>
+                            {/* <Grid item xs={6} md={12}>
                             <UniversalField
                               type="phone"
                               {...field("receiverPhone")}
                               value={newOrder.receiverPhone || "+380"}
                             />
-                          </Grid>
-                          {state.isNp ? (
-                            <>
-                              <Grid item xs={12} lg={12}>
-                                <UniversalField {...field("warehouse")} />
+                          </Grid> */}
+                            {state.isUkr ? (
+                              <>
+                                <Grid item xs={6} lg={12}>
+                                  <UniversalField {...field("warehouseUkr")} />
+                                </Grid>
+                              </>
+                            ) : (
+                              <>
+                                <Grid item xs={6} lg={12}>
+                                  <UniversalField {...field("warehouse")} />
+                                </Grid>
+                                <Grid item xs={6} md={12}>
+                                  <UniversalField {...field("payment")} />
+                                </Grid>
+                              </>
+                            )}
+                            <Grid item xs={6} lg={12}>
+                              <UniversalField
+                                {...field("ttn")}
+                                multiline={true}
+                              />
+                            </Grid>
+                          </>
+                        ) : (
+                          <>
+                            <Grid item xs={12}>
+                              <UniversalField
+                                label="Компанія відправник"
+                                name="company2"
+                                disabled={!isEditable("company2")}
+                                {...defaultOptions}
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <UniversalField
+                                type="phone"
+                                {...field("senderPhone")}
+                                value={newOrder.senderPhone || "+380"}
+                              />
+                            </Grid>
+                            <Grid item xs={6} md={12}>
+                              <UniversalField {...field("receiverType")} />
+                            </Grid>
+                            {newOrder.receiverType == "832" && (
+                              <Grid item xs={6} md={12}>
+                                <UniversalField {...field("receiverName")} />
                               </Grid>
-                              <Grid item xs={12} md={12}>
-                                <UniversalField {...field("destination")} />
+                            )}
+                            {newOrder.receiverType == "834" && (
+                              <Grid item xs={6} md={12}>
+                                <UniversalField
+                                  label="Компанія одержувач"
+                                  name="company1"
+                                  type="company"
+                                  options={companies}
+                                  onCreate={handleNewCompany}
+                                  disabled={!isEditable("company1")}
+                                  {...defaultOptions}
+                                />
                               </Grid>
-                              <Grid item xs={12}>
-                                <UniversalField {...field("payer")} />
-                              </Grid>
-                              <Grid item xs={6} md={12} pt={0}>
-                                <UniversalField {...field("insurance")} />
-                              </Grid>
-                              <Grid item xs={12} md={12}>
-                                <UniversalField {...field("thirtyPlus")} />
-                              </Grid>
-                            </>
-                          ) : (
-                            <>
-                              <Grid item xs={12}>
-                                <UniversalField {...field("warehouseUkr")} />
-                              </Grid>
-                            </>
-                          )}
-                          {/* <Grid item xs={6} md={12}>
+                            )}
+                            <Grid item xs={6} md={12}>
+                              <UniversalField
+                                type="phone"
+                                {...field("receiverPhone")}
+                                value={newOrder.receiverPhone || "+380"}
+                              />
+                            </Grid>
+                            {state.isNp ? (
+                              <>
+                                <Grid item xs={12} lg={12}>
+                                  <UniversalField {...field("warehouse")} />
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                  <UniversalField {...field("destination")} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <UniversalField {...field("payer")} />
+                                </Grid>
+                                <Grid item xs={6} md={12} pt={0}>
+                                  <UniversalField {...field("insurance")} />
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                  <UniversalField {...field("thirtyPlus")} />
+                                </Grid>
+                              </>
+                            ) : (
+                              <>
+                                <Grid item xs={12}>
+                                  <UniversalField {...field("warehouseUkr")} />
+                                </Grid>
+                              </>
+                            )}
+                            {/* <Grid item xs={6} md={12}>
                             <UniversalField
                               name="senderName"
                               type="contact"
@@ -701,232 +703,247 @@ export default function Form(props: FormProps) {
                               {...defaultOptions}
                             />
                           </Grid> */}
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {state.isCargo ? (
-                        <>
-                          <Grid item xs={12}>
-                            <UniversalField
-                              label="Компанія відправник"
-                              name="company2"
-                              disabled={!isEditable("company2")}
-                              {...defaultOptions}
-                            />
-                          </Grid>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </>
-                  )}
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {state.isCargo ? (
+                          <>
+                            <Grid item xs={12}>
+                              <UniversalField
+                                label="Компанія відправник"
+                                name="company2"
+                                disabled={!isEditable("company2")}
+                                {...defaultOptions}
+                              />
+                            </Grid>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    )}
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} lg={9}>
-                    {!state.isNew && (
+                <Grid item xs={12}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} lg={9}>
+                      {!state.isNew && (
+                        <Grid item xs={12}>
+                          <UniversalField
+                            {...field("driverComment")}
+                            multiline={true}
+                          />
+                        </Grid>
+                      )}
+                    </Grid>
+                    {newOrder.stageId == "DT137_24:FAIL" && (
                       <Grid item xs={12}>
                         <UniversalField
-                          {...field("driverComment")}
+                          {...field("disallow")}
                           multiline={true}
                         />
                       </Grid>
                     )}
-                  </Grid>
-                  {newOrder.stageId == "DT137_24:FAIL" && (
-                    <Grid item xs={12}>
-                      <UniversalField {...field("disallow")} multiline={true} />
-                    </Grid>
-                  )}
-                  {!state.isNew && (
-                    <>
-                      {attach && !state.isPrint && (
-                        <Grid item xs={12}>
-                          <Button
-                            startIcon={<AttachFileIcon />}
-                            onClick={() => {
-                              openInNewTab(attach.url);
-                            }}
-                          >
-                            {getFileName(newOrder.fileName as string)}
-                          </Button>
-                        </Grid>
-                      )}
-                      {!viewMode && (
-                        <Grid item xs={12}>
-                          <TextField
-                            name="upload-photo"
-                            type="file"
-                            inputProps={{ accept: "image/*" }}
-                            onChange={async ({ target }: any) => {
-                              let selectorFiles: FileList = target.files;
-                              const file = selectorFiles.item(0);
-                              if (file) {
-                                file2Base64(file).then((content) => {
-                                  setNewOrder({
-                                    ...newOrder,
-                                    file: {
-                                      fileData: { name: file.name, content },
-                                    },
-                                  });
-                                });
-                              }
-                            }}
-                          />
-                        </Grid>
-                      )}
-                      {!viewMode &&
-                        !(
-                          state.isUkr &&
-                          state.isSend &&
-                          !newOrder.isUrgent
-                        ) && (
-                          <>
-                            <Grid item xs={6} lg={4}>
-                              <UniversalField
-                                name="driver"
-                                value={newOrder.driver}
-                                isNext={newOrder.driver == "9999"}
-                                type="user"
-                                options={[
-                                  ...drivers,
-                                  {
-                                    id: "9999",
-                                    label: "Вибрати зі списку користувачів",
-                                  },
-                                ]}
-                                optionsNext={users}
-                                disabled={!isEditable("driver")}
-                                onChange={handleChange}
-                              />
-                            </Grid>
-                            <Grid item xs={6} lg={4}>
-                              <UniversalField
-                                name="car"
-                                value={newOrder.car}
-                                type="car"
-                                options={cars}
-                                disabled={!isEditable("car")}
-                                onChange={handleChange}
-                              />
-                            </Grid>
-                          </>
-                        )}
-                    </>
-                  )}
-                  <Box width="100%" />
-                  {!state.isNew && !viewMode && (
-                    <Grid item xs={12} lg={4}>
-                      <OrderSelect
-                        name="stageId"
-                        label="Стадія"
-                        value={nextStageId}
-                        items={statusList}
-                        disabled={!isEditable("stageId")}
-                        onChange={handleStatusChange}
-                      />
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Box mt={2} sx={{ display: "block", displayPrint: "none" }}>
-                  {state.isNew ? (
-                    <Stack direction="row" spacing={2}>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        onClick={props.onClose}
-                      >
-                        Відміна заявки
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          handleCreate(true);
-                        }}
-                      >
-                        Створити та надрукувати
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          handleCreate();
-                        }}
-                      >
-                        Створити заявку
-                      </Button>
-                    </Stack>
-                  ) : (
-                    <Stack direction="row" spacing={2}>
-                      {!viewMode ? (
-                        <>
-                          {!state.isArch && (
+                    {!state.isNew && (
+                      <>
+                        {attach && !state.isPrint && (
+                          <Grid item xs={12}>
                             <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleUpdate}
-                              disabled={state.isSaving}
-                            >
-                              {!state.isSaving || true ? (
-                                <>Зберегти</>
-                              ) : (
-                                <>
-                                  <CircularProgress
-                                    size={24}
-                                    sx={{
-                                      color: grey[50],
-                                    }}
-                                  />
-                                </>
-                              )}
-                            </Button>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {!state.isArch && (
-                            <Button
-                              variant="contained"
-                              color="primary"
+                              startIcon={<AttachFileIcon />}
                               onClick={() => {
-                                props.setViewMode(false);
+                                openInNewTab(attach.url);
                               }}
                             >
-                              Редагувати
+                              {getFileName(newOrder.fileName as string)}
                             </Button>
+                          </Grid>
+                        )}
+                        {!viewMode && (
+                          <Grid item xs={12}>
+                            <TextField
+                              name="upload-photo"
+                              type="file"
+                              inputProps={{ accept: "image/*" }}
+                              onChange={async ({ target }: any) => {
+                                let selectorFiles: FileList = target.files;
+                                const file = selectorFiles.item(0);
+                                if (file) {
+                                  file2Base64(file).then((content) => {
+                                    setNewOrder({
+                                      ...newOrder,
+                                      file: {
+                                        fileData: { name: file.name, content },
+                                      },
+                                    });
+                                  });
+                                }
+                              }}
+                            />
+                          </Grid>
+                        )}
+                        {!viewMode &&
+                          !(
+                            state.isUkr &&
+                            state.isSend &&
+                            !newOrder.isUrgent
+                          ) && (
+                            <>
+                              <Grid item xs={6} lg={4}>
+                                <UniversalField
+                                  name="driver"
+                                  value={newOrder.driver}
+                                  isNext={newOrder.driver == "9999"}
+                                  type="user"
+                                  options={[
+                                    ...drivers,
+                                    {
+                                      id: "9999",
+                                      label: "Вибрати зі списку користувачів",
+                                    },
+                                  ]}
+                                  optionsNext={users}
+                                  disabled={!isEditable("driver")}
+                                  onChange={handleChange}
+                                />
+                              </Grid>
+                              <Grid item xs={6} lg={4}>
+                                <UniversalField
+                                  name="car"
+                                  value={newOrder.car}
+                                  type="car"
+                                  options={cars}
+                                  disabled={!isEditable("car")}
+                                  onChange={handleChange}
+                                />
+                              </Grid>
+                            </>
                           )}
-                        </>
-                      )}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handlePrint}
-                        disabled={state.isSaving}
-                      >
-                        Надрукувати
-                      </Button>
-                      {!viewMode && props.user.role == "admin" && (
+                      </>
+                    )}
+                    <Box width="100%" />
+                    {!state.isNew && !viewMode && (
+                      <Grid item xs={12} lg={4}>
+                        <OrderSelect
+                          name="stageId"
+                          label="Стадія"
+                          value={nextStageId}
+                          items={statusList}
+                          disabled={!isEditable("stageId")}
+                          onChange={handleStatusChange}
+                        />
+                      </Grid>
+                    )}
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Box mt={2} sx={{ display: "block", displayPrint: "none" }}>
+                    {state.isNew ? (
+                      <Stack direction="row" spacing={2}>
                         <Button
                           variant="contained"
                           color="error"
-                          onClick={props.onDelete}
+                          onClick={props.onClose}
+                        >
+                          Відміна заявки
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            handleCreate(true);
+                          }}
+                        >
+                          Створити та надрукувати
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            handleCreate();
+                          }}
+                        >
+                          Створити заявку
+                        </Button>
+                      </Stack>
+                    ) : (
+                      <Stack direction="row" spacing={2}>
+                        {!viewMode ? (
+                          <>
+                            {!state.isArch && (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleUpdate}
+                                disabled={state.isSaving}
+                              >
+                                {!state.isSaving || true ? (
+                                  <>Зберегти</>
+                                ) : (
+                                  <>
+                                    <CircularProgress
+                                      size={24}
+                                      sx={{
+                                        color: grey[50],
+                                      }}
+                                    />
+                                  </>
+                                )}
+                              </Button>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {!state.isArch && (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => {
+                                  props.setViewMode(false);
+                                }}
+                              >
+                                Редагувати
+                              </Button>
+                            )}
+                          </>
+                        )}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handlePrint}
                           disabled={state.isSaving}
                         >
-                          Видалити
+                          Надрукувати
                         </Button>
-                      )}
-                    </Stack>
-                  )}
-                </Box>
+                        {!viewMode && props.user.role == "admin" && (
+                          <Button
+                            variant="contained"
+                            color="error"
+                            onClick={props.onDelete}
+                            disabled={state.isSaving}
+                          >
+                            Видалити
+                          </Button>
+                        )}
+                      </Stack>
+                    )}
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          )}
+          {viewMode && (
+            <Box mt={4}>
+              <PrintForm
+                order={newOrder}
+                createdAt={formatDateString(String(newOrder?.createdAt))}
+                completeTo={formatDateString(String(newOrder?.completeTo))}
+                department={departament?.NAME || "—"}
+                phoneNumber={newOrder?.contactPhone || "—"}
+              />
+            </Box>
+          )}
           {/* <pre>{JSON.stringify(newOrder, null, 2)}</pre> */}
           <ConfirmDialog
             isOpen={confirmDialog.isOpen}

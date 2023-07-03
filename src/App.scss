@@ -3,6 +3,11 @@ body {
   padding: 0;
 }
 
+table {
+  border-collapse: collapse;
+  border-color: black;
+}
+
 .MuiDataGrid-root .MuiDataGrid-cell {
   white-space: normal !important;
   word-wrap: break-word !important;
