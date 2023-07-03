@@ -3,6 +3,7 @@ import { Box, Container, Paper, Typography } from "@mui/material";
 import { AllowedType, Order, OrderKeys } from "../types";
 import { FieldNames, typeTranslation } from "../consts";
 import { DataContext } from "../dataContext";
+import UniversalField from "./universal-field";
 
 function T({ children }: { children: ReactNode }) {
   return (
@@ -10,10 +11,6 @@ function T({ children }: { children: ReactNode }) {
       <Typography>{children}</Typography>
     </Box>
   );
-}
-
-function Dash() {
-  return <>&nbsp;&nbsp;—&nbsp;&nbsp;</>;
 }
 
 function PrintTables(props: { order: Order }) {
@@ -83,13 +80,29 @@ function PrintTables(props: { order: Order }) {
       company2: "Компанія відправник",
     },
   };
-
+  const fieldUI = (name: OrderKeys) => {
+    const normalizedValue = (val: any): string | boolean | undefined => {
+      if (typeof val === "undefined") {
+        return;
+      } else {
+        if (typeof val === "boolean") {
+          return Boolean(val);
+        }
+        return String(val);
+      }
+    };
+    return {
+      name,
+      value: normalizedValue(props.order[name]),
+      disabled: false,
+    };
+  };
   return (
     <>
       {tableRows[props.order.orderType as AllowedType]?.map((list, key) => {
         return (
           <Box my={4} key={key}>
-            <table border={1}>
+            <table className="fWTable" border={1}>
               <tbody>
                 {list.map((key) => {
                   let fieldName = key as string;
@@ -112,13 +125,19 @@ function PrintTables(props: { order: Order }) {
                   if (!fieldValue) return <tr key={key}></tr>;
                   return (
                     <tr key={key}>
-                      <td>
+                      <td className="lCol">
                         <T>
                           <b>{fieldName}</b>
                         </T>
                       </td>
                       <td>
-                        <T>{fieldValue}</T>
+                        <Box p={1}>
+                          <UniversalField
+                            {...fieldUI(key)}
+                            label="-"
+                            viewMode={true}
+                          />
+                        </Box>
                       </td>
                     </tr>
                   );
@@ -143,7 +162,7 @@ export default function PrintForm(props: {
   return (
     <>
       <Container maxWidth="lg">
-        <Box p={5} pt={0}>
+        <Box>
           {props.order.isUrgent && (
             <Typography variant="h5" component="b" color={"error"}>
               ТЕРМІНОВА
@@ -159,64 +178,68 @@ export default function PrintForm(props: {
           </Box>
           <Box mt={4}>
             <table>
-              <tr>
-                <td>
-                  <T>
-                    <b>Дата створення:</b>
-                  </T>
-                </td>
-                <td>
-                  <T>{props.createdAt}</T>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <T>
-                    <b>Виконати до:</b>
-                  </T>
-                </td>
-                <td>
-                  <T>{props.completeTo}</T>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>
+                    <T>
+                      <b>Дата створення:</b>
+                    </T>
+                  </td>
+                  <td>
+                    <T>{props.createdAt}</T>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <T>
+                      <b>Виконати до:</b>
+                    </T>
+                  </td>
+                  <td>
+                    <T>{props.completeTo}</T>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </Box>
           <Box my={4}>
             <table border={1}>
-              <tr>
-                <td>
-                  <T>
-                    <b>Автор заявки</b>
-                  </T>
-                </td>
-                <td>
-                  <T>
-                    <b>Відділ</b>
-                  </T>
-                </td>
-                <td>
-                  <T>
-                    <b>Контактний номер</b>
-                  </T>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <T>
-                    {
-                      users.find((u: any) => u["id"] == props.order.author)[
-                        "label"
-                      ]
-                    }
-                  </T>
-                </td>
-                <td>
-                  <T>{props.department}</T>
-                </td>
-                <td>
-                  <T>{props.phoneNumber}</T>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>
+                    <T>
+                      <b>Автор заявки</b>
+                    </T>
+                  </td>
+                  <td>
+                    <T>
+                      <b>Відділ</b>
+                    </T>
+                  </td>
+                  <td>
+                    <T>
+                      <b>Контактний номер</b>
+                    </T>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <T>
+                      {
+                        users.find((u: any) => u["id"] == props.order.author)[
+                          "label"
+                        ]
+                      }
+                    </T>
+                  </td>
+                  <td>
+                    <T>{props.department}</T>
+                  </td>
+                  <td>
+                    <T>{props.phoneNumber}</T>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </Box>
           <Box>

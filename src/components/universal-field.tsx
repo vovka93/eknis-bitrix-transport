@@ -37,6 +37,7 @@ export default function UniversalField(props: {
   disabled?: boolean;
   multiline?: boolean;
   viewMode?: boolean;
+  noLabel?: boolean;
   onChange?: (value: Order) => void;
   onCreate?: (name: string) => Promise<number>;
 }) {
@@ -305,9 +306,9 @@ export default function UniversalField(props: {
         <>
           {type != "boolean" ? (
             <TextField
-              {...{ label }}
+              label={props.label == "-" ? "" : label}
               value={getPrintValue(value)}
-              fullWidth
+              fullWidth={true}
               size="small"
               variant="standard"
               multiline={props?.multiline}
