@@ -135,7 +135,7 @@ class BitrixClient {
       ...BitrixClient.smartID,
       select: ["*"],
       order: {
-        ID: "ASC",
+        ID: "DESC",
       },
       filter,
       start,

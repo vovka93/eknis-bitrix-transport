@@ -302,7 +302,12 @@ export default function DataTable(props: {
           setRowCount(orders.length);
         }
         setIsLoaded(true);
-        setRows(orders);
+        const uniqueOrdersByKey = [
+          ...new Map(
+            orders.filter(Boolean).map((item) => [item["id"], item])
+          ).values(),
+        ];
+        setRows(uniqueOrdersByKey);
       }
     });
   }, [props.tabIndex]);
@@ -325,7 +330,6 @@ export default function DataTable(props: {
             column.hideable = false;
             column.sortable = true;
           }
-
           if (column.headerName == "Created on") {
             column.headerName = "Дата створення";
           }
@@ -457,7 +461,7 @@ export default function DataTable(props: {
           }
           allColumns.push(column);
         });
-        let isUidCol = (col: any) => col.field == "ufCrm24_1675071973";
+        let isUidCol = (col: GridColDef) => col.field == "ufCrm24_1675071973";
         let uidCol = allColumns.find(isUidCol);
         let uidColIndex = allColumns.findIndex(isUidCol);
         allColumns = allColumns
@@ -532,7 +536,6 @@ export default function DataTable(props: {
               columns={columns}
               columnVisibilityModel={columnVisibilityModel}
               pageSize={itemsCount}
-              rowCount={rowCount}
               rowsPerPageOptions={[itemsCount]}
               disableColumnFilter={true}
               disableDensitySelector={true}
