@@ -445,19 +445,27 @@ export default function DataTable(props: {
             column.minWidth = 250;
           }
           if (field.type == "datetime") {
-            column.valueGetter = (params: GridValueGetterParams) => {
-              if (params.row[key]) {
-                const date = new Date(params.row[key]);
-                return date
+            column.renderCell = (params: GridRenderCellParams<Date>) => {
+              const date = params.value;
+              if (date) {
+                const value = date
                   .toLocaleString([], {
                     dateStyle: "short",
                     timeStyle: "short",
                   })
                   .replace(",", "");
+                return <>{value}</>;
+              }
+              return <>-</>;
+            };
+            column.valueGetter = (params: GridValueGetterParams) => {
+              if (params.row[key]) {
+                return new Date(params.row[key]);
               } else {
                 return "";
               }
             };
+            column.type = "date";
           }
           allColumns.push(column);
         });
