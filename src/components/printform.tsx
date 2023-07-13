@@ -135,7 +135,7 @@ function PrintTables(props: { order: Order }) {
                           <UniversalField
                             {...fieldUI(key)}
                             label="-"
-                            viewMode={true}
+                            text={true}
                           />
                         </Box>
                       </td>

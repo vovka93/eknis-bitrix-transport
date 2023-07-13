@@ -280,7 +280,8 @@ export default function Form(props: FormProps) {
             if (
               nextStageId == "DT137_24:SUCCESS" &&
               newOrder.driver &&
-              newOrder.stageId == "DT137_24:NEW"
+              newOrder.stageId == "DT137_24:NEW" &&
+              !state.isNp
             ) {
               props.handleError("Оберіть правильну стадію");
               setState({ isSaving: false });
@@ -630,6 +631,9 @@ export default function Form(props: FormProps) {
                               <UniversalField
                                 label="Компанія відправник"
                                 name="company2"
+                                type="company"
+                                value={newOrder.company2}
+                                options={companies}
                                 disabled={!isEditable("company2")}
                                 {...defaultOptions}
                               />
@@ -641,6 +645,11 @@ export default function Form(props: FormProps) {
                                 value={newOrder.senderPhone || "+380"}
                               />
                             </Grid>
+                            {state.isNp && (
+                              <Grid item xs={12} lg={12}>
+                                <UniversalField {...field("warehouse")} />
+                              </Grid>
+                            )}
                             <Grid item xs={6} md={12}>
                               <UniversalField {...field("receiverType")} />
                             </Grid>
@@ -655,6 +664,7 @@ export default function Form(props: FormProps) {
                                   label="Компанія одержувач"
                                   name="company1"
                                   type="company"
+                                  value={newOrder.company1}
                                   options={companies}
                                   onCreate={handleNewCompany}
                                   disabled={!isEditable("company1")}
@@ -671,9 +681,6 @@ export default function Form(props: FormProps) {
                             </Grid>
                             {state.isNp ? (
                               <>
-                                <Grid item xs={12} lg={12}>
-                                  <UniversalField {...field("warehouse")} />
-                                </Grid>
                                 <Grid item xs={12} md={12}>
                                   <UniversalField {...field("destination")} />
                                 </Grid>
@@ -714,6 +721,10 @@ export default function Form(props: FormProps) {
                               <UniversalField
                                 label="Компанія відправник"
                                 name="company2"
+                                type="company"
+                                value={newOrder.company1}
+                                options={companies}
+                                onCreate={handleNewCompany}
                                 disabled={!isEditable("company2")}
                                 {...defaultOptions}
                               />

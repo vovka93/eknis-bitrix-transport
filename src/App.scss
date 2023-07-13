@@ -10,10 +10,15 @@ table {
 
 .fWTable {
   width: 100%;
+  max-width: fit-content;
 }
 
 .fWTable .lCol {
   width: 300px;
+}
+
+.fWTable p {
+  overflow-wrap: anywhere;
 }
 
 .MuiDataGrid-root .MuiDataGrid-cell {

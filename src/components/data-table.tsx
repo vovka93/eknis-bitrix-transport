@@ -147,6 +147,7 @@ const sorting: string[] = [
   "stageId",
   "orderType",
   "author",
+  "destination",
   "createdAt",
   "completeTo",
   "comment",

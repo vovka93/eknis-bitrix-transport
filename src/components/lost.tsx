@@ -8,7 +8,17 @@ import {
   GridRenderCellParams,
   ukUA,
 } from "@mui/x-data-grid";
-import { ButtonGroup, ClickAwayListener, Container, Grow, MenuItem, MenuList, Paper, Popper, TextField } from "@mui/material";
+import {
+  ButtonGroup,
+  ClickAwayListener,
+  Container,
+  Grow,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  TextField,
+} from "@mui/material";
 import { BitrixUser, Order } from "../types";
 import bitrix from "../bitrixContext";
 import { DataContext } from "../dataContext";
@@ -148,29 +158,29 @@ export default function Lost(props: {
       const d = new Date();
       const takedString = taked ? taked.toISOString() : d.toISOString();
       const newOrder: Order = {
-        orderType: "989", file, taked: takedString,
-        comment: commentRef.current?.value ?? '',
-        place: placeRef.current?.value ?? '',
-        lostSender: senderRef.current?.value ?? ''
+        orderType: "989",
+        file,
+        taked: takedString,
+        comment: commentRef.current?.value ?? "",
+        place: placeRef.current?.value ?? "",
+        lostSender: senderRef.current?.value ?? "",
       };
-      bitrix
-        .newOrder(newOrder, fields)
-        .then((createdOrder) => {
+      bitrix.counter().then((counter) => {
+        let uid = counter;
+        bitrix.newOrder({ ...newOrder, uid }, fields).then((createdOrder) => {
           if (createdOrder.result.item) {
+            bitrix.counterSet(uid + 1);
             setIsLoading(false);
           }
-          if (commentRef.current)
-            commentRef.current.value = '';
-          if (placeRef.current)
-            placeRef.current.value = '';
-          if (senderRef.current)
-            senderRef.current.value = '';
-          if (fileRef.current)
-            fileRef.current.value = '';
-          setTaked(undefined)
+          if (commentRef.current) commentRef.current.value = "";
+          if (placeRef.current) placeRef.current.value = "";
+          if (senderRef.current) senderRef.current.value = "";
+          if (fileRef.current) fileRef.current.value = "";
+          setTaked(undefined);
           setFile(undefined);
           loadOrders(!tabIndex);
         });
+      });
     }
   };
 
@@ -235,8 +245,7 @@ export default function Lost(props: {
             onClick={async (e) => {
               e.stopPropagation();
               setImageUrl(
-                "/transport/file.php?url=" +
-                btoa(params.value ?? "")
+                "/transport/file.php?url=" + btoa(params.value ?? "")
               );
             }}
           >
@@ -246,6 +255,7 @@ export default function Lost(props: {
           ""
         ),
     },
+    { field: "ufCrm24_1675071973", headerName: "№" },
     {
       field: "createdTime",
       type: "dateTime",
@@ -273,7 +283,7 @@ export default function Lost(props: {
           })
           .replace(",", ""),
       valueGetter: ({ value }: any) => {
-        return value && new Date(value)
+        return value && new Date(value);
       },
     },
     {
@@ -291,7 +301,6 @@ export default function Lost(props: {
       headerName: "Місце знаходження відправлення",
       width: 300,
     },
-    { field: "id", headerName: "ID" },
   ];
 
   if (!tabIndex) {
@@ -367,8 +376,7 @@ export default function Lost(props: {
                 disabled={isLoading}
                 disablePast={false}
                 onChange={(dateTime) => {
-                  if (dateTime)
-                    setTaked(dateTime);
+                  if (dateTime) setTaked(dateTime);
                 }}
               />
             </Box>

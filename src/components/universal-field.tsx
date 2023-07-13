@@ -36,6 +36,7 @@ export default function UniversalField(props: {
   optionsNext?: any[];
   disabled?: boolean;
   multiline?: boolean;
+  text?: boolean;
   viewMode?: boolean;
   noLabel?: boolean;
   onChange?: (value: Order) => void;
@@ -300,20 +301,26 @@ export default function UniversalField(props: {
 
   return (
     <>
-      {!printMode && !isUrgent ? (
+      {!printMode && !isUrgent && !props.text ? (
         <>{renderInput()}</>
       ) : (
         <>
           {type != "boolean" ? (
-            <TextField
-              label={props.label == "-" ? "" : label}
-              value={getPrintValue(value)}
-              fullWidth={true}
-              size="small"
-              variant="standard"
-              multiline={props?.multiline}
-              InputProps={{ disableUnderline: true }}
-            />
+            <>
+              {!props.text ? (
+                <TextField
+                  label={props.label == "-" ? "" : label}
+                  value={getPrintValue(value)}
+                  fullWidth={true}
+                  size="small"
+                  variant="standard"
+                  multiline={props?.multiline}
+                  InputProps={{ disableUnderline: true }}
+                />
+              ) : (
+                <Typography>{getPrintValue(value)}</Typography>
+              )}
+            </>
           ) : (
             <>
               {["isBack", "alwaysDriver"].includes(props.name) ? (
