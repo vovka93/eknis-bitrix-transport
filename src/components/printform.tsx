@@ -97,6 +97,7 @@ function PrintTables(props: { order: Order }) {
       disabled: false,
     };
   };
+
   return (
     <>
       {tableRows[props.order.orderType as AllowedType]?.map((list, key) => {
@@ -107,18 +108,31 @@ function PrintTables(props: { order: Order }) {
                 {list.map((key) => {
                   let fieldName = key as string;
                   const field = fields[FieldNames[key as OrderKeys] as string];
-                  fieldName = field.formLabel;
                   let fieldValue = props.order[key] as string;
+                  fieldName = field.formLabel;
+                  if (field.type == "enumeration") {
+                    let item = field.items.find(
+                      (c: any) => c["ID"] == fieldValue
+                    );
+                    if (item) {
+                      fieldValue = item.VALUE;
+                    }
+                  }
+                  if (field.type == "boolean") {
+                    fieldValue = fieldValue ? "Так" : "Ні";
+                  }
                   let cTitles =
                     companyTitles[props.order.orderType as AllowedType];
                   if (cTitles) {
                     if (cTitles[key]) {
                       fieldName = cTitles[key] ?? "";
-                      let company = companies.find(
-                        (c: any) => c["id"] == fieldValue
-                      );
-                      if (company) {
-                        fieldValue = company.LABEL;
+                      if (field.type == "crm") {
+                        let company = companies.find(
+                          (c: any) => c["id"] == fieldValue
+                        );
+                        if (company) {
+                          fieldValue = company.label;
+                        }
                       }
                     }
                   }
@@ -132,11 +146,7 @@ function PrintTables(props: { order: Order }) {
                       </td>
                       <td>
                         <Box p={1}>
-                          <UniversalField
-                            {...fieldUI(key)}
-                            label="-"
-                            text={true}
-                          />
+                          <T>{fieldValue}</T>
                         </Box>
                       </td>
                     </tr>
