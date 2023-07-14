@@ -15,9 +15,10 @@ function T({ children }: { children: ReactNode }) {
 
 function PrintTables(props: { order: Order }) {
   const { fields, companies } = useContext(DataContext);
+
   const tableRows: { [key in AllowedType]?: OrderKeys[][] } = {
     "888": [["company1", "company2", "warehouseUkr", "ttn"], ["comment"]],
-    "890": [["company2", "listType"], ["destination"], ["comment"]],
+    "890": [["company2", "company1", "listType"], ["destination"], ["comment"]],
     "836": [
       ["company1", "company2", "warehouse", "ttn", "payment"],
       ["comment"],
@@ -64,6 +65,7 @@ function PrintTables(props: { order: Order }) {
       company2: "Компанія одержувач",
     },
     "890": {
+      company1: "Компанія одержувач",
       company2: "Компанія відправник",
     },
     "836": {
