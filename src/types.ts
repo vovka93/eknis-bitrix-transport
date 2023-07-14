@@ -128,7 +128,9 @@ export type MyBadges = {
 };
 
 export type BadgeFilter = {
-  [T in keyof MyBadges as string]: { [key: string]: string | string[] };
+  [T in keyof MyBadges as string]: {
+    [key: string]: string | string[] | number;
+  };
 };
 
 export type BadgeCounters = {

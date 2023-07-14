@@ -148,6 +148,8 @@ const sorting: string[] = [
   "orderType",
   "author",
   "destination",
+  "company1",
+  "company2",
   "createdAt",
   "completeTo",
   "comment",
@@ -308,6 +310,7 @@ export default function DataTable(props: {
             orders.filter(Boolean).map((item) => [item["id"], item])
           ).values(),
         ];
+        console.log(uniqueOrdersByKey);
         setRows(uniqueOrdersByKey);
       }
     });

@@ -77,7 +77,7 @@ export const typeTranslation: AllowedTypeNames = {
   "844": "Малогабаритний вантаж",
   "888": "Укрпошта - Отримання",
   "890": "Укрпошта – Відправлення",
-  "989": "Неідентифіковані",
+  989: "Неідентифіковані",
 };
 
 export const ignoreList = [
@@ -99,39 +99,40 @@ export const filters = {
   active: {
     stageId: ["DT137_24:NEW"],
     ufCrm24_1661514725: "",
-    "!ufCrm24Ordertype": "989",
+    "!ufCrm24Ordertype": 989,
   },
   accepted: {
     stageId: ["DT137_24:PREPARATION"],
     "!ufCrm24_1661514725": "",
-    "!ufCrm24Ordertype": "989",
+    "!ufCrm24Ordertype": 989,
   },
   allActive: {
     "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS", "DT137_24:CLIENT"],
-    "!ufCrm24Ordertype": "989",
+    "!ufCrm24Ordertype": 989,
   },
   all: {
     "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
-    "!ufCrm24Ordertype": "989",
+    "!ufCrm24Ordertype": 989,
+  },
+  archive: {
+    stageId: ["DT137_24:FAIL", "DT137_24:SUCCESS"],
+    "!ufCrm24Ordertype": 989,
   },
   my: (id: string) => {
     return {
       "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
       ufCrm24_1680165184: id,
-      "!ufCrm24Ordertype": "989",
+      "!ufCrm24Ordertype": 989,
     };
   },
   cretedBy: (id: string) => {
     return {
       "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
-      "!ufCrm24Ordertype": "989",
+      "!ufCrm24Ordertype": 989,
       createdBy: id,
     };
   },
-  archive: {
-    stageId: ["DT137_24:FAIL", "DT137_24:SUCCESS"],
-  },
-  lost: { ufCrm24Ordertype: "989", ufCrm24_1664960635: "" },
+  lost: { ufCrm24Ordertype: 989, ufCrm24_1664960635: "" },
 };
 
 export const confirmFields: {
