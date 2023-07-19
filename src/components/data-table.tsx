@@ -5,6 +5,7 @@ import {
   GridColumnVisibilityModel,
   GridEventListener,
   GridRenderCellParams,
+  GridSortItem,
   GridValueGetterParams,
   ukUA,
 } from "@mui/x-data-grid";
@@ -261,6 +262,12 @@ export default function DataTable(props: {
       id: true,
       ufCrm24_1675071973: true,
     });
+  const [sortModel, setSortModel] = useState<GridSortItem[]>([
+    {
+      field: "ufCrm24MakeFor",
+      sort: 'asc',
+    },
+  ]);
   const handleEvent: GridEventListener<"rowClick"> = (
     params, // GridRowParams
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
@@ -310,7 +317,6 @@ export default function DataTable(props: {
             orders.filter(Boolean).map((item) => [item["id"], item])
           ).values(),
         ];
-        console.log(uniqueOrdersByKey);
         setRows(uniqueOrdersByKey);
       }
     });
@@ -332,7 +338,6 @@ export default function DataTable(props: {
           if (key == "id") {
             column.width = 100;
             column.hideable = false;
-            column.sortable = true;
           }
           if (column.headerName == "Created on") {
             column.headerName = "Дата створення";
@@ -509,7 +514,8 @@ export default function DataTable(props: {
       }
     }
   }, [rows.length]);
-
+  console.log(columns)
+  console.log(rows)
   return (
     <>
       {!isLoaded ? (
@@ -525,7 +531,9 @@ export default function DataTable(props: {
                 setTabIndex={props.setTabIndex}
               />
             </Box>
-            <StyledDataGrid
+            {rows.length && columns.length && <StyledDataGrid
+              getRowHeight={() => 'auto'}
+              getEstimatedRowHeight={() => 52}
               getRowClassName={(params) => {
                 if (params.row["stageId"] == "DT137_24:SUCCESS") {
                   return "row--success";
@@ -554,9 +562,11 @@ export default function DataTable(props: {
               disableSelectionOnClick={true}
               initialState={{
                 sorting: {
-                  sortModel: [{ field: "id", sort: "asc" }],
+                  sortModel,
                 },
               }}
+              sortModel={sortModel}
+              onSortModelChange={(model) => setSortModel(model)}
               onColumnVisibilityModelChange={(newModel) => {
                 localStorage.setItem(
                   "columnVisibilityModel",
@@ -564,7 +574,7 @@ export default function DataTable(props: {
                 );
                 setColumnVisibilityModel(newModel);
               }}
-            />
+            />}
           </div>
           <Dialog
             imageUrl={imageUrl}

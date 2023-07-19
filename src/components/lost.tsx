@@ -6,6 +6,7 @@ import {
   DataGrid,
   GridEventListener,
   GridRenderCellParams,
+  GridValueGetterParams,
   ukUA,
 } from "@mui/x-data-grid";
 import {
@@ -27,6 +28,7 @@ import Dialog from "./dialog";
 import OrderDate from "./order-date";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { file2Base64 } from "../functions";
+import UniversalField from "./universal-field";
 
 type FileType = {
   fileData: {
@@ -147,9 +149,11 @@ export default function Lost(props: {
   const commentRef = useRef<HTMLInputElement>();
   const placeRef = useRef<HTMLInputElement>();
   const senderRef = useRef<HTMLInputElement>();
+  const [lostSender, setSender] = useState("");
+  const [senderType, setSenderType] = useState<any>("834");
   const fileRef = useRef<HTMLInputElement>();
   const [taked, setTaked] = useState<Date | undefined>();
-  const { fields } = useContext(DataContext);
+  const { users, companies, fields } = useContext(DataContext);
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleClick = () => {
@@ -163,7 +167,7 @@ export default function Lost(props: {
         taked: takedString,
         comment: commentRef.current?.value ?? "",
         place: placeRef.current?.value ?? "",
-        lostSender: senderRef.current?.value ?? "",
+        lostSender: senderType == '834' ? lostSender : senderRef.current?.value ?? "",
       };
       bitrix.counter().then((counter) => {
         let uid = counter;
@@ -292,6 +296,18 @@ export default function Lost(props: {
       width: 200,
     },
     {
+      field: "ufCrm24_1664960635",
+      headerName: "Хто забрав посилку",
+      width: 200,
+      valueGetter: (params: GridValueGetterParams) => {
+        let filtered = users.filter(
+          (user: any) => user.id == params.row['ufCrm24_1664960635']
+        );
+        return filtered[0]?.label || "";
+      },
+      sortable: false
+    },
+    {
       field: "ufCrm24_1662466325",
       headerName: "Коментар",
       width: 300,
@@ -360,14 +376,36 @@ export default function Lost(props: {
               />
             </Box>
             <Box mt={2}>
-              <TextField
+              <UniversalField
+                label="Тип відправника"
+                name="receiverType"
+                value={senderType}
+                onChange={val => {
+                  setSenderType(val.receiverType)
+                }}
+              />
+            </Box>
+            <Box mt={2}>
+              {senderType == '834' ? <UniversalField
                 label="Відправник"
+                name="company1"
+                type="company"
+                options={companies}
+                onChange={(val) => {
+                  const id = val.company1 as string;
+                  const company = companies.find((c: { id: string; label: string }) => {
+                    return c.id == id;
+                  });
+                  setSender(company?.label ?? "");
+                }}
+              /> : <TextField
+                label="ПІБ"
                 name="lostSender"
                 inputRef={senderRef}
                 disabled={isLoading}
                 fullWidth
                 multiline
-              />
+              />}
             </Box>
             <Box mt={2}>
               <OrderDate

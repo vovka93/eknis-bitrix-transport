@@ -27,6 +27,10 @@ table {
   word-wrap: break-word !important;
 }
 
+.MuiDataGrid-row {
+  min-height: 52px !important;
+}
+
 @media print {
   @page {
     width: 21cm;

@@ -30,6 +30,7 @@ function PrintTables(props: { order: Order }) {
         "cargoDesc",
         "company2",
         "senderPhone",
+        "company1",
         "receiverName",
         "receiverPhone",
         "destination",
@@ -74,6 +75,7 @@ function PrintTables(props: { order: Order }) {
     },
     "838": {
       company2: "Компанія відправник",
+      company1: "Компанія одержувач",
     },
     "842": {
       company2: "Компанія відправник",
@@ -237,11 +239,7 @@ export default function PrintForm(props: {
                 <tr>
                   <td>
                     <T>
-                      {
-                        users.find((u: any) => u["id"] == props.order.author)[
-                          "label"
-                        ]
-                      }
+                      {users.find((u: any) => u["id"] == props.order.author)["label"]}
                     </T>
                   </td>
                   <td>
