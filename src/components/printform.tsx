@@ -52,8 +52,8 @@ function PrintTables(props: { order: Order }) {
       ],
       ["comment"],
     ],
-    "842": [["company2", "place", "to", "size"], ["comment"]],
-    "844": [["company2", "place", "to", "size"], ["comment"]],
+    "842": [["company2", "from", "to", "size"], ["comment"]],
+    "844": [["company2", "from", "to", "size"], ["comment"]],
   };
 
   const companyTitles: {
