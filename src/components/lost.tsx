@@ -199,6 +199,10 @@ export default function Lost(props: {
       });
   };
 
+  const handleNewCompany = (companyName: string): Promise<number> => {
+    return bitrix.newCompany(companyName);
+  };
+
   useEffect(() => {
     loadOrders(!tabIndex);
   }, [tabIndex]);
@@ -391,6 +395,7 @@ export default function Lost(props: {
                 name="company1"
                 type="company"
                 options={companies}
+                onCreate={handleNewCompany}
                 onChange={(val) => {
                   const id = val.company1 as string;
                   const company = companies.find((c: { id: string; label: string }) => {
@@ -422,7 +427,7 @@ export default function Lost(props: {
               <Button
                 onClick={handleClick}
                 variant="contained"
-                disabled={!file || isLoading}
+                disabled={!file || isLoading || !lostSender}
               >
                 Створити
               </Button>
