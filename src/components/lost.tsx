@@ -148,7 +148,6 @@ export default function Lost(props: {
   const [file, setFile] = useState<FileType | undefined>();
   const commentRef = useRef<HTMLInputElement>();
   const placeRef = useRef<HTMLInputElement>();
-  const senderRef = useRef<HTMLInputElement>();
   const [lostSender, setSender] = useState("");
   const [senderType, setSenderType] = useState<any>("834");
   const fileRef = useRef<HTMLInputElement>();
@@ -167,7 +166,7 @@ export default function Lost(props: {
         taked: takedString,
         comment: commentRef.current?.value ?? "",
         place: placeRef.current?.value ?? "",
-        lostSender: senderType == '834' ? lostSender : senderRef.current?.value ?? "",
+        lostSender,
       };
       bitrix.counter().then((counter) => {
         let uid = counter;
@@ -178,7 +177,6 @@ export default function Lost(props: {
           }
           if (commentRef.current) commentRef.current.value = "";
           if (placeRef.current) placeRef.current.value = "";
-          if (senderRef.current) senderRef.current.value = "";
           if (fileRef.current) fileRef.current.value = "";
           setTaked(undefined);
           setFile(undefined);
@@ -385,6 +383,7 @@ export default function Lost(props: {
                 name="receiverType"
                 value={senderType}
                 onChange={val => {
+                  setSender("");
                   setSenderType(val.receiverType)
                 }}
               />
@@ -406,7 +405,9 @@ export default function Lost(props: {
               /> : <TextField
                 label="ПІБ"
                 name="lostSender"
-                inputRef={senderRef}
+                onChange={(e) => {
+                  setSender(e.target.value);
+                }}
                 disabled={isLoading}
                 fullWidth
                 multiline
