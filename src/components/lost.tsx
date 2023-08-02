@@ -413,7 +413,6 @@ export default function Lost(props: {
                 fullWidth
                 multiline
               />}
-              !{lostSender}!
             </Box>
             <Box mt={2}>
               <OrderDate
