@@ -198,6 +198,7 @@ export default function Lost(props: {
   };
 
   const handleNewCompany = (companyName: string): Promise<number> => {
+    setSender(companyName);
     return bitrix.newCompany(companyName);
   };
 
@@ -412,6 +413,7 @@ export default function Lost(props: {
                 fullWidth
                 multiline
               />}
+              !{lostSender}!
             </Box>
             <Box mt={2}>
               <OrderDate
