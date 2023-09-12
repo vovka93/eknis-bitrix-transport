@@ -165,7 +165,7 @@ export default function Form(props: FormProps) {
     let phones: Record<string, string> = {
       "828": "+380673372153",
       "830": "+380678358122",
-      "987": "+380960696768",
+      "987": "+380682284535",
     };
     if (state.isPost) {
       if (newOrder.company2) {
