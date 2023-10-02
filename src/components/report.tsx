@@ -40,7 +40,7 @@ export default function Report() {
       rows.push(<TableRow key={key}><TableCell>{i}</TableCell><TableCell>{key}</TableCell><TableCell align="center">{a[0]}</TableCell><TableCell align="center">{a[1]}</TableCell></TableRow>);
       i++;
     }
-    return rows;
+    return <>{rows}</>;
   }
 
   function sum(i = 0) {
