@@ -10,6 +10,7 @@ import bitrix from "./bitrixContext";
 import { DataContext } from "./dataContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import Centered from "./components/centered";
+import Report from "./components/report";
 import Notification from "./components/notification";
 import Lost from "./components/lost";
 import { loadFromStorage } from "./functions";
@@ -23,6 +24,7 @@ export default function App() {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [showLost, setShowLost] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [companies, setCompanies] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [drivers, setDrivers] = useState<any[]>([]);
@@ -106,6 +108,10 @@ export default function App() {
 
   const handleLost = () => {
     setShowLost(true);
+  };
+
+  const handleReport = () => {
+    setShowReport(true);
   };
 
   const handleViewOrder = (orderID: number) => {
@@ -281,16 +287,17 @@ export default function App() {
     if (showStartScreen) {
       setShowForm(false);
       setShowTable(false);
+      setShowReport(false);
       setShowLost(false);
       setFixed(true);
     }
   }, [showStartScreen]);
 
   useEffect(() => {
-    if ((showForm || showTable || showLost) && showStartScreen) {
+    if ((showForm || showTable || showLost || showReport) && showStartScreen) {
       setShowStartScreen(false);
     }
-  }, [showForm, showTable, showLost]);
+  }, [showForm, showTable, showLost, showReport]);
 
   useEffect(() => {
     if (showForm) {
@@ -309,10 +316,10 @@ export default function App() {
   }, [showTable]);
 
   useEffect(() => {
-    if (showLost) {
+    if (showLost || showReport) {
       setFixed(false);
     }
-  }, [showLost]);
+  }, [showLost, showReport]);
 
   useEffect(() => {
     if (userId && !user?.ID) {
@@ -383,6 +390,7 @@ export default function App() {
               onCreate={handleCreating}
               onView={handleView}
               onLost={handleLost}
+              onReport={handleReport}
             />
           )}
           <DataContext.Provider
@@ -399,6 +407,7 @@ export default function App() {
             }}
           >
             {showLost && <Lost {...{ user }} onCreate={handleCreateOrder} />}
+            {showReport && <Report />}
             {showForm && (
               <>
                 <Form

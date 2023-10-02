@@ -24,6 +24,7 @@ export default function StartScreen(props: {
   onCreate: MouseEventHandler<HTMLButtonElement>;
   onView: (type: number) => void;
   onLost: MouseEventHandler<HTMLButtonElement>;
+  onReport: MouseEventHandler<HTMLButtonElement>;
 }) {
   const [badges, setBadgets] = useReducer<Reducer<MyBadges, Partial<MyBadges>>>(
     (state, newState) => ({ ...state, ...newState }),
@@ -136,6 +137,14 @@ export default function StartScreen(props: {
               Неідентифіковані отримання
             </Button>
           </Badge>
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            onClick={props.onReport}
+          >
+            Звіт
+          </Button>
         </Stack>
       </Box>
     </Centered>
