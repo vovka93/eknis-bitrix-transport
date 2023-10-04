@@ -34,7 +34,12 @@ export default function Report() {
   function PrintTable() {
     let rows = [];
     let i = 1;
-    for (const [key, value] of Object.entries(json)) {
+    const sortedByValue = Object.fromEntries(
+      Object.entries(json).sort((a: any, b: any) => {
+        return b[1][0] - a[1][0];
+      })
+    );
+    for (const [key, value] of Object.entries(sortedByValue)) {
       let a: any = value;
       if (a[0] + a[1] < 10) continue;
       rows.push(<TableRow key={key}><TableCell>{i}</TableCell><TableCell>{key}</TableCell><TableCell align="center">{a[0]}</TableCell><TableCell align="center">{a[1]}</TableCell></TableRow>);
