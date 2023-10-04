@@ -48,10 +48,13 @@ export default function Report() {
     return <>{rows}</>;
   }
 
-  function sum(i = 0) {
+  function sum(i = 0, all = false) {
     let s = 0;
     for (const [key, value] of Object.entries(json)) {
       let a: any = value;
+      if (!all) {
+        if (a[0] + a[1] < 10) continue;
+      }
       s += a[i];
     }
     return s;
@@ -98,7 +101,7 @@ export default function Report() {
                   </TableRow>
                   <TableRow>
                     <TableCell colSpan={2} align="right"></TableCell>
-                    <TableCell colSpan={2} align="center"><b>{sum(0) + sum(1)}</b></TableCell>
+                    <TableCell colSpan={2} align="center"><b>{sum(0, true) + sum(1, true)}</b></TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
