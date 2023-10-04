@@ -36,7 +36,7 @@ export default function Report() {
     let i = 1;
     for (const [key, value] of Object.entries(json)) {
       let a: any = value;
-      // if (a[0] + a[1] < 10) continue;
+      if (a[0] + a[1] < 10) continue;
       rows.push(<TableRow key={key}><TableCell>{i}</TableCell><TableCell>{key}</TableCell><TableCell align="center">{a[0]}</TableCell><TableCell align="center">{a[1]}</TableCell></TableRow>);
       i++;
     }
