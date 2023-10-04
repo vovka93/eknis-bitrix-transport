@@ -52,6 +52,7 @@ export default function Report() {
     let s = 0;
     for (const [key, value] of Object.entries(json)) {
       let a: any = value;
+      if (a[0] + a[1] < 10) continue;
       s += a[i];
     }
     return s;
