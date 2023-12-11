@@ -18,7 +18,7 @@ function PrintTables(props: { order: Order }) {
 
   const tableRows: { [key in AllowedType]?: OrderKeys[][] } = {
     "888": [["company1", "company2", "warehouseUkr", "ttn"], ["comment"]],
-    "890": [["company2", "company1", "receiverName", "receiverPhone", "listType"], ["destination"], ["comment"]],
+    "890": [["company2", "company1", "edrpou", "receiverName", "receiverPhone", "listType"], ["destination"], ["comment"]],
     "836": [
       ["company1", "company2", "warehouse", "ttn", "payment"],
       ["comment"],
@@ -31,6 +31,7 @@ function PrintTables(props: { order: Order }) {
         "company2",
         "senderPhone",
         "company1",
+        "edrpou",
         "receiverName",
         "receiverPhone",
         "destination",

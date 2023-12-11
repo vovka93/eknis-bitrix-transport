@@ -72,6 +72,7 @@ type Movement = {
   disallow: string; // причина відмови
   uid: string; // id+1
   cargoDesc: string; // Опис вантажу
+  edrpou: string; // ДРФО
 };
 
 export type StageRecord = {

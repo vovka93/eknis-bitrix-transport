@@ -183,6 +183,22 @@ export default function Form(props: FormProps) {
   }, [newOrder?.company2]);
 
   useEffect(() => {
+    if (newOrder?.receiverType == "834" && newOrder?.company1) {
+      bitrix.getEdrpou(newOrder.company1).then((edrpou) => {
+        setNewOrder({
+          ...newOrder,
+          edrpou,
+        });
+      }).catch(() => {
+        setNewOrder({
+          ...newOrder,
+          'edrpou': '',
+        });
+      })
+    }
+  }, [newOrder?.company1, newOrder?.receiverType]);
+
+  useEffect(() => {
     if (newOrder.sender) {
       let val = newOrder.sender;
       let newUniversalFields: Order = {
@@ -658,7 +674,7 @@ export default function Form(props: FormProps) {
                                 <UniversalField {...field("receiverName")} />
                               </Grid>
                             )}
-                            {newOrder.receiverType == "834" && (
+                            {newOrder.receiverType == "834" && (<>
                               <Grid item xs={6} md={12}>
                                 <UniversalField
                                   label="Компанія одержувач"
@@ -671,6 +687,10 @@ export default function Form(props: FormProps) {
                                   {...defaultOptions}
                                 />
                               </Grid>
+                              {newOrder.company1 &&
+                                <Grid item xs={6} md={12}><UniversalField {...field("edrpou")} /></Grid>
+                              }
+                            </>
                             )}
                             <Grid item xs={6} md={12}>
                               <UniversalField

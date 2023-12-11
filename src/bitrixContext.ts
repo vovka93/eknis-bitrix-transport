@@ -266,7 +266,7 @@ class BitrixClient {
         }
         resolve([
           ...iterable,
-          ...(data.next ? await this.all(start + 50, list) : []),
+          ...(data.next ? await this.all(start + 50, list, filter) : []),
         ]);
       }
     });
@@ -304,6 +304,20 @@ class BitrixClient {
       };
       this.call("crm.company.add", { fields }).then((data) => {
         resolve(data.result);
+      });
+    });
+  }
+  getEdrpou(companyId: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      let filter = {
+        'ENTITY_ID': companyId
+      };
+      this.call("crm.requisite.list", { filter }).then((data) => {
+        try {
+          resolve(data.result.pop()['RQ_EDRPOU']);
+        } catch (error) {
+          reject('');
+        }
       });
     });
   }

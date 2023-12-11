@@ -63,6 +63,7 @@ export const FieldNames: { [T in keyof Order]: string } = {
   disallow: "ufCrm24_1670929177",
   uid: "ufCrm24_1675071973",
   cargoDesc: "ufCrm24_1682679442",
+  edrpou: "ufCrm24_1702293907",
 };
 
 export const FieldKeys = Object.fromEntries(
