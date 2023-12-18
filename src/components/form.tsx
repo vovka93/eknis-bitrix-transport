@@ -237,7 +237,7 @@ export default function Form(props: FormProps) {
       setTimeout(() => {
         setState({ isPrint: false });
         window.print();
-      }, 300);
+      }, 200);
     }
   }, [state.isPrint, state.isSaving, viewMode]);
 
@@ -406,7 +406,7 @@ export default function Form(props: FormProps) {
         <FormScreen onFormOpen={handleFormOpen} />
       ) : newOrder.orderType ? (
         <Container maxWidth="xl">
-          {!viewMode && (
+          {(!viewMode || state.isSaving) && (
             <Box mt={4}>
               <Box my={2}>
                 <Typography variant="h5">
@@ -875,6 +875,7 @@ export default function Form(props: FormProps) {
                         <Button
                           variant="contained"
                           color="error"
+                          disabled={state.isSaving}
                           onClick={props.onClose}
                         >
                           Відміна заявки
@@ -882,6 +883,7 @@ export default function Form(props: FormProps) {
                         <Button
                           variant="contained"
                           color="primary"
+                          disabled={state.isSaving}
                           onClick={() => {
                             handleCreate(true);
                           }}
@@ -891,6 +893,7 @@ export default function Form(props: FormProps) {
                         <Button
                           variant="contained"
                           color="primary"
+                          disabled={state.isSaving}
                           onClick={() => {
                             handleCreate();
                           }}
@@ -964,7 +967,7 @@ export default function Form(props: FormProps) {
               </Grid>
             </Box>
           )}
-          {viewMode && (
+          {viewMode && !state.isSaving && (
             <Box mt={4}>
               <PrintForm
                 order={newOrder}

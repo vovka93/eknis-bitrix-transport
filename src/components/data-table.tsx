@@ -514,8 +514,7 @@ export default function DataTable(props: {
       }
     }
   }, [rows.length]);
-  console.log(columns)
-  console.log(rows)
+
   return (
     <>
       {!isLoaded ? (
@@ -535,6 +534,7 @@ export default function DataTable(props: {
               getRowHeight={() => 'auto'}
               getEstimatedRowHeight={() => 52}
               getRowClassName={(params) => {
+                console.log(params.row)
                 if (params.row["stageId"] == "DT137_24:SUCCESS") {
                   return "row--success";
                 }
@@ -544,7 +544,7 @@ export default function DataTable(props: {
                 if (params.row["stageId"] == "DT137_24:CLIENT") {
                   return "row--client";
                 }
-                return params.row[FieldNames.isUrgent as string]
+                return params.row[FieldNames.isUrgent as string] === 'Y'
                   ? "row--isUrgent"
                   : "";
               }}

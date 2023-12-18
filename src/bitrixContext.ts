@@ -19,6 +19,7 @@ class BitrixClient {
     return order;
   }
   convertOrder(order: Order | any, fromBitrix: boolean, fields: any): any {
+    console.log(order)
     let swapedOrder: Order | any = {};
     Object.entries(FieldNames).forEach(([key, value]) => {
       let to = value;
@@ -37,7 +38,7 @@ class BitrixClient {
             return;
           }
           if (fields[value].type == "boolean") {
-            swapedOrder[to] = Boolean(newValue);
+            swapedOrder[to] = newValue === 'Y' || newValue === true;
           } else {
             if (newValue != null && newValue != "null") {
               swapedOrder[to] = String(newValue);
