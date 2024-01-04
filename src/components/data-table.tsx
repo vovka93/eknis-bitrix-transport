@@ -534,7 +534,6 @@ export default function DataTable(props: {
               getRowHeight={() => 'auto'}
               getEstimatedRowHeight={() => 52}
               getRowClassName={(params) => {
-                console.log(params.row)
                 if (params.row["stageId"] == "DT137_24:SUCCESS") {
                   return "row--success";
                 }

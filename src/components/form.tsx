@@ -166,6 +166,7 @@ export default function Form(props: FormProps) {
       "828": "+380673372153",
       "830": "+380678358122",
       "987": "+380682284535",
+      "1197": "+380934470416",
     };
     if (state.isPost) {
       if (newOrder.company2) {
