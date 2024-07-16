@@ -345,12 +345,14 @@ export default function App() {
         if (roles) {
           if (roles["admins"].includes(userId)) {
             role = "admin";
-          }
-          if (roles["boss"].includes(userId)) {
-            role = "boss";
-          }
-          if (roles["drivers"].includes(userId)) {
-            role = "driver";
+          } else {
+            if (roles["boss"].includes(userId)) {
+              role = "boss";
+            } else {
+              if (roles["drivers"].includes(userId)) {
+                role = "driver";
+              }
+            }
           }
           let newUser = user;
           newUser.role = role;
