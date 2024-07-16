@@ -100,36 +100,36 @@ export const filters = {
   active: {
     stageId: ["DT137_24:NEW"],
     ufCrm24_1661514725: "",
-    "!ufCrm24Ordertype": 989,
+    "!=ufCrm24Ordertype": 989,
   },
   accepted: {
     stageId: ["DT137_24:PREPARATION"],
-    "!ufCrm24_1661514725": "",
-    "!ufCrm24Ordertype": 989,
+    "!=ufCrm24_1661514725": "",
+    "!=ufCrm24Ordertype": 989,
   },
   allActive: {
-    "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS", "DT137_24:CLIENT"],
-    "!ufCrm24Ordertype": 989,
+    "!=stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS", "DT137_24:CLIENT"],
+    "!=ufCrm24Ordertype": 989,
   },
   all: {
-    "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
-    "!ufCrm24Ordertype": 989,
+    "!=stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
+    "!=ufCrm24Ordertype": 989,
   },
   archive: {
     stageId: ["DT137_24:FAIL", "DT137_24:SUCCESS"],
-    "!ufCrm24Ordertype": 989,
+    "!=ufCrm24Ordertype": 989,
   },
   my: (id: string) => {
     return {
-      "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
+      "!=stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
       ufCrm24_1680165184: id,
-      "!ufCrm24Ordertype": 989,
+      "!=ufCrm24Ordertype": 989,
     };
   },
   cretedBy: (id: string) => {
     return {
-      "!stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
-      "!ufCrm24Ordertype": 989,
+      "!=stageId": ["DT137_24:FAIL", "DT137_24:SUCCESS"],
+      "!=ufCrm24Ordertype": 989,
       createdBy: id,
     };
   },
